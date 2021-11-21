@@ -352,7 +352,7 @@ module Grantee =
         (Util.list_filter_opt
            [Util.option_map v.u_r_i
               (fun f -> Query.Pair ("URI", (String.to_query f)));
-           Some (Query.Pair ("xsi:type", (Type.to_query v.type_)));
+           Some (Query.Pair ("Xsi:type", (Type.to_query v.type_)));
            Util.option_map v.i_d
              (fun f -> Query.Pair ("ID", (String.to_query f)));
            Util.option_map v.email_address
@@ -2027,7 +2027,7 @@ module Tagging =
     let to_query v =
       Query.List
         (Util.list_filter_opt
-           [Some (Query.Pair ("TagSet.member", (TagSet.to_query v.tag_set)))])
+           [Some (Query.Pair ("TagSet", (TagSet.to_query v.tag_set)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt [Some ("tag_set", (TagSet.to_json v.tag_set))])
@@ -3455,13 +3455,12 @@ module S3Location =
                  Query.Pair ("StorageClass", (StorageClass.to_query f)));
            Some
              (Query.Pair
-                ("UserMetadata.member",
-                  (UserMetadata.to_query v.user_metadata)));
+                ("UserMetadata", (UserMetadata.to_query v.user_metadata)));
            Util.option_map v.tagging
              (fun f -> Query.Pair ("Tagging", (Tagging.to_query f)));
            Some
              (Query.Pair
-                ("AccessControlList.member",
+                ("AccessControlList",
                   (Grants.to_query v.access_control_list)));
            Util.option_map v.canned_a_c_l
              (fun f -> Query.Pair ("CannedACL", (ObjectCannedACL.to_query f)));
@@ -5272,7 +5271,7 @@ module InventoryConfiguration =
                  ("Schedule", (InventorySchedule.to_query v.schedule)));
            Some
              (Query.Pair
-                ("OptionalFields.member",
+                ("OptionalFields",
                   (InventoryOptionalFields.to_query v.optional_fields)));
            Some
              (Query.Pair
@@ -5623,8 +5622,7 @@ module LoggingEnabled =
               (Query.Pair ("TargetPrefix", (String.to_query v.target_prefix)));
            Some
              (Query.Pair
-                ("TargetGrants.member",
-                  (TargetGrants.to_query v.target_grants)));
+                ("TargetGrants", (TargetGrants.to_query v.target_grants)));
            Some
              (Query.Pair ("TargetBucket", (String.to_query v.target_bucket)))])
     let to_json v =
@@ -6858,8 +6856,7 @@ module WebsiteConfiguration =
         (Util.list_filter_opt
            [Some
               (Query.Pair
-                 ("RoutingRules.member",
-                   (RoutingRules.to_query v.routing_rules)));
+                 ("RoutingRules", (RoutingRules.to_query v.routing_rules)));
            Util.option_map v.redirect_all_requests_to
              (fun f ->
                 Query.Pair
@@ -7754,7 +7751,7 @@ module ListObjectsV2Output =
              (fun f -> Query.Pair ("EncodingType", (EncodingType.to_query f)));
            Some
              (Query.Pair
-                ("CommonPrefixes.member",
+                ("CommonPrefixes",
                   (CommonPrefixList.to_query v.common_prefixes)));
            Util.option_map v.max_keys
              (fun f -> Query.Pair ("MaxKeys", (Integer.to_query f)));
@@ -7764,9 +7761,7 @@ module ListObjectsV2Output =
              (fun f -> Query.Pair ("Prefix", (String.to_query f)));
            Util.option_map v.name
              (fun f -> Query.Pair ("Name", (String.to_query f)));
-           Some
-             (Query.Pair
-                ("Contents.member", (ObjectList.to_query v.contents)));
+           Some (Query.Pair ("Contents", (ObjectList.to_query v.contents)));
            Util.option_map v.is_truncated
              (fun f -> Query.Pair ("IsTruncated", (Boolean.to_query f)))])
     let to_json v =
@@ -7860,13 +7855,13 @@ module GetObjectTaggingRequest =
            [Util.option_map v.request_payer
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-payer", (RequestPayer.to_query f)));
+                   ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.expected_bucket_owner
              (fun f ->
                 Query.Pair
-                  ("x-amz-expected-bucket-owner", (String.to_query f)));
+                  ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -7931,12 +7926,12 @@ module GetObjectLegalHoldRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -7983,7 +7978,7 @@ module PutObjectRetentionOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)))])
+                   ("X-amz-request-charged", (RequestCharged.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -8077,36 +8072,36 @@ module CreateMultipartUploadOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_encryption_context
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-context",
+                  ("X-amz-server-side-encryption-context",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.upload_id
              (fun f -> Query.Pair ("UploadId", (String.to_query f)));
@@ -8116,9 +8111,9 @@ module CreateMultipartUploadOutput =
              (fun f -> Query.Pair ("Bucket", (String.to_query f)));
            Util.option_map v.abort_rule_id
              (fun f ->
-                Query.Pair ("x-amz-abort-rule-id", (String.to_query f)));
+                Query.Pair ("X-amz-abort-rule-id", (String.to_query f)));
            Util.option_map v.abort_date
-             (fun f -> Query.Pair ("x-amz-abort-date", (DateTime.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-abort-date", (DateTime.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -8332,47 +8327,47 @@ module GetObjectRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.part_number
-             (fun f -> Query.Pair ("partNumber", (Integer.to_query f)));
+             (fun f -> Query.Pair ("PartNumber", (Integer.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Util.option_map v.response_expires
-             (fun f -> Query.Pair ("response-expires", (DateTime.to_query f)));
+             (fun f -> Query.Pair ("Response-expires", (DateTime.to_query f)));
            Util.option_map v.response_content_type
              (fun f ->
-                Query.Pair ("response-content-type", (String.to_query f)));
+                Query.Pair ("Response-content-type", (String.to_query f)));
            Util.option_map v.response_content_language
              (fun f ->
-                Query.Pair ("response-content-language", (String.to_query f)));
+                Query.Pair ("Response-content-language", (String.to_query f)));
            Util.option_map v.response_content_encoding
              (fun f ->
-                Query.Pair ("response-content-encoding", (String.to_query f)));
+                Query.Pair ("Response-content-encoding", (String.to_query f)));
            Util.option_map v.response_content_disposition
              (fun f ->
                 Query.Pair
-                  ("response-content-disposition", (String.to_query f)));
+                  ("Response-content-disposition", (String.to_query f)));
            Util.option_map v.response_cache_control
              (fun f ->
-                Query.Pair ("response-cache-control", (String.to_query f)));
+                Query.Pair ("Response-cache-control", (String.to_query f)));
            Util.option_map v.range
              (fun f -> Query.Pair ("Range", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
@@ -8555,11 +8550,11 @@ module PutBucketReplicationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.token
              (fun f ->
                 Query.Pair
-                  ("x-amz-bucket-object-lock-token", (String.to_query f)));
+                  ("X-amz-bucket-object-lock-token", (String.to_query f)));
            Some
              (Query.Pair
                 ("ReplicationConfiguration",
@@ -8619,11 +8614,11 @@ module RestoreObjectOutput =
            [Util.option_map v.restore_output_path
               (fun f ->
                  Query.Pair
-                   ("x-amz-restore-output-path", (String.to_query f)));
+                   ("X-amz-restore-output-path", (String.to_query f)));
            Util.option_map v.request_charged
              (fun f ->
                 Query.Pair
-                  ("x-amz-request-charged", (RequestCharged.to_query f)))])
+                  ("X-amz-request-charged", (RequestCharged.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -8681,7 +8676,7 @@ module PutBucketEncryptionRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("ServerSideEncryptionConfiguration",
@@ -8766,7 +8761,7 @@ module PutBucketLifecycleRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.lifecycle_configuration
              (fun f ->
                 Query.Pair
@@ -8817,7 +8812,7 @@ module DeleteObjectTaggingOutput =
       Query.List
         (Util.list_filter_opt
            [Util.option_map v.version_id
-              (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)))])
+              (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -8912,16 +8907,16 @@ module ListPartsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
-           Some (Query.Pair ("uploadId", (String.to_query v.upload_id)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
+           Some (Query.Pair ("UploadId", (String.to_query v.upload_id)));
            Util.option_map v.part_number_marker
              (fun f ->
-                Query.Pair ("part-number-marker", (Integer.to_query f)));
+                Query.Pair ("Part-number-marker", (Integer.to_query f)));
            Util.option_map v.max_parts
-             (fun f -> Query.Pair ("max-parts", (Integer.to_query f)));
+             (fun f -> Query.Pair ("Max-parts", (Integer.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -8981,7 +8976,7 @@ module HeadBucketRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9050,18 +9045,18 @@ module DeleteObjectRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.bypass_governance_retention
              (fun f ->
                 Query.Pair
-                  ("x-amz-bypass-governance-retention", (Boolean.to_query f)));
+                  ("X-amz-bypass-governance-retention", (Boolean.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Util.option_map v.m_f_a
-             (fun f -> Query.Pair ("x-amz-mfa", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-mfa", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -9120,7 +9115,7 @@ module GetBucketTaggingRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9174,11 +9169,11 @@ module AbortMultipartUploadRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
-           Some (Query.Pair ("uploadId", (String.to_query v.upload_id)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
+           Some (Query.Pair ("UploadId", (String.to_query v.upload_id)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -9256,7 +9251,7 @@ module PutObjectTaggingOutput =
       Query.List
         (Util.list_filter_opt
            [Util.option_map v.version_id
-              (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)))])
+              (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -9291,7 +9286,7 @@ module GetBucketPolicyRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9331,7 +9326,7 @@ module GetBucketVersioningRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9445,7 +9440,7 @@ module GetObjectLockConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9481,9 +9476,9 @@ module GetObjectTaggingOutput =
     let to_query v =
       Query.List
         (Util.list_filter_opt
-           [Some (Query.Pair ("TagSet.member", (TagSet.to_query v.tag_set)));
+           [Some (Query.Pair ("TagSet", (TagSet.to_query v.tag_set)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -9535,7 +9530,7 @@ module PutBucketOwnershipControlsRequest =
            Util.option_map v.expected_bucket_owner
              (fun f ->
                 Query.Pair
-                  ("x-amz-expected-bucket-owner", (String.to_query f)));
+                  ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
@@ -9637,12 +9632,12 @@ module PutBucketMetricsConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("MetricsConfiguration",
                   (MetricsConfiguration.to_query v.metrics_configuration)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9690,7 +9685,7 @@ module GetBucketLocationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -9776,15 +9771,15 @@ module RestoreObjectRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.restore_request
              (fun f ->
                 Query.Pair ("RestoreRequest", (RestoreRequest.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -9889,7 +9884,7 @@ module ListObjectVersionsOutput =
                  Query.Pair ("EncodingType", (EncodingType.to_query f)));
            Some
              (Query.Pair
-                ("CommonPrefixes.member",
+                ("CommonPrefixes",
                   (CommonPrefixList.to_query v.common_prefixes)));
            Util.option_map v.max_keys
              (fun f -> Query.Pair ("MaxKeys", (Integer.to_query f)));
@@ -10025,14 +10020,14 @@ module PutBucketVersioningRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("VersioningConfiguration",
                   (VersioningConfiguration.to_query
                      v.versioning_configuration)));
            Util.option_map v.m_f_a
-             (fun f -> Query.Pair ("x-amz-mfa", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-mfa", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
@@ -10102,7 +10097,7 @@ module PutBucketRequestPaymentRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("RequestPaymentConfiguration",
@@ -10368,150 +10363,150 @@ module WriteGetObjectResponseRequest =
            [Util.option_map v.bucket_key_enabled
               (fun f ->
                  Query.Pair
-                   ("x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled",
+                   ("X-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled",
                      (Boolean.to_query f)));
            Util.option_map v.version_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-version-id", (String.to_query f)));
+                  ("X-amz-fwd-header-x-amz-version-id", (String.to_query f)));
            Util.option_map v.tag_count
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-tagging-count",
+                  ("X-amz-fwd-header-x-amz-tagging-count",
                     (Integer.to_query f)));
            Util.option_map v.storage_class
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-storage-class",
+                  ("X-amz-fwd-header-x-amz-storage-class",
                     (StorageClass.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-server-side-encryption",
+                  ("X-amz-fwd-header-x-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.restore
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-restore", (String.to_query f)));
+                  ("X-amz-fwd-header-x-amz-restore", (String.to_query f)));
            Util.option_map v.request_charged
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-request-charged",
+                  ("X-amz-fwd-header-x-amz-request-charged",
                     (RequestCharged.to_query f)));
            Util.option_map v.replication_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-replication-status",
+                  ("X-amz-fwd-header-x-amz-replication-status",
                     (ReplicationStatus.to_query f)));
            Util.option_map v.parts_count
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-mp-parts-count",
+                  ("X-amz-fwd-header-x-amz-mp-parts-count",
                     (Integer.to_query f)));
            Util.option_map v.object_lock_retain_until_date
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-object-lock-retain-until-date",
+                  ("X-amz-fwd-header-x-amz-object-lock-retain-until-date",
                     (DateTime.to_query f)));
            Util.option_map v.object_lock_legal_hold_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-object-lock-legal-hold",
+                  ("X-amz-fwd-header-x-amz-object-lock-legal-hold",
                     (ObjectLockLegalHoldStatus.to_query f)));
            Util.option_map v.object_lock_mode
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-object-lock-mode",
+                  ("X-amz-fwd-header-x-amz-object-lock-mode",
                     (ObjectLockMode.to_query f)));
            Util.option_map v.metadata
-             (fun f -> Query.Pair ("x-amz-meta-", (Metadata.to_query f)));
+             (fun f -> Query.Pair ("X-amz-meta-", (Metadata.to_query f)));
            Util.option_map v.missing_meta
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-missing-meta",
+                  ("X-amz-fwd-header-x-amz-missing-meta",
                     (Integer.to_query f)));
            Util.option_map v.last_modified
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Last-Modified", (DateTime.to_query f)));
+                  ("X-amz-fwd-header-Last-Modified", (DateTime.to_query f)));
            Util.option_map v.expiration
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-expiration", (String.to_query f)));
+                  ("X-amz-fwd-header-x-amz-expiration", (String.to_query f)));
            Util.option_map v.expires
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Expires", (DateTime.to_query f)));
+                  ("X-amz-fwd-header-Expires", (DateTime.to_query f)));
            Util.option_map v.e_tag
              (fun f ->
-                Query.Pair ("x-amz-fwd-header-ETag", (String.to_query f)));
+                Query.Pair ("X-amz-fwd-header-ETag", (String.to_query f)));
            Util.option_map v.delete_marker
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-x-amz-delete-marker",
+                  ("X-amz-fwd-header-x-amz-delete-marker",
                     (Boolean.to_query f)));
            Util.option_map v.content_type
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Content-Type", (String.to_query f)));
+                  ("X-amz-fwd-header-Content-Type", (String.to_query f)));
            Util.option_map v.content_range
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Content-Range", (String.to_query f)));
+                  ("X-amz-fwd-header-Content-Range", (String.to_query f)));
            Util.option_map v.content_length
              (fun f -> Query.Pair ("Content-Length", (Long.to_query f)));
            Util.option_map v.content_language
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Content-Language", (String.to_query f)));
+                  ("X-amz-fwd-header-Content-Language", (String.to_query f)));
            Util.option_map v.content_encoding
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Content-Encoding", (String.to_query f)));
+                  ("X-amz-fwd-header-Content-Encoding", (String.to_query f)));
            Util.option_map v.content_disposition
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Content-Disposition",
+                  ("X-amz-fwd-header-Content-Disposition",
                     (String.to_query f)));
            Util.option_map v.cache_control
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-Cache-Control", (String.to_query f)));
+                  ("X-amz-fwd-header-Cache-Control", (String.to_query f)));
            Util.option_map v.accept_ranges
              (fun f ->
                 Query.Pair
-                  ("x-amz-fwd-header-accept-ranges", (String.to_query f)));
+                  ("X-amz-fwd-header-accept-ranges", (String.to_query f)));
            Util.option_map v.error_message
              (fun f ->
-                Query.Pair ("x-amz-fwd-error-message", (String.to_query f)));
+                Query.Pair ("X-amz-fwd-error-message", (String.to_query f)));
            Util.option_map v.error_code
              (fun f ->
-                Query.Pair ("x-amz-fwd-error-code", (String.to_query f)));
+                Query.Pair ("X-amz-fwd-error-code", (String.to_query f)));
            Util.option_map v.status_code
-             (fun f -> Query.Pair ("x-amz-fwd-status", (Integer.to_query f)));
+             (fun f -> Query.Pair ("X-amz-fwd-status", (Integer.to_query f)));
            Util.option_map v.body
              (fun f -> Query.Pair ("Body", (Blob.to_query f)));
            Some
              (Query.Pair
-                ("x-amz-request-token", (String.to_query v.request_token)));
+                ("X-amz-request-token", (String.to_query v.request_token)));
            Some
              (Query.Pair
-                ("x-amz-request-route", (String.to_query v.request_route)))])
+                ("X-amz-request-route", (String.to_query v.request_route)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -10711,8 +10706,8 @@ module DeleteBucketMetricsConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -10759,8 +10754,8 @@ module GetBucketInventoryConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -10826,16 +10821,16 @@ module PutObjectLockConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Util.option_map v.token
              (fun f ->
                 Query.Pair
-                  ("x-amz-bucket-object-lock-token", (String.to_query f)));
+                  ("X-amz-bucket-object-lock-token", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.object_lock_configuration
              (fun f ->
                 Query.Pair
@@ -10903,12 +10898,12 @@ module DeleteObjectOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)));
            Util.option_map v.delete_marker
              (fun f ->
-                Query.Pair ("x-amz-delete-marker", (Boolean.to_query f)))])
+                Query.Pair ("X-amz-delete-marker", (Boolean.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -10952,7 +10947,7 @@ module DeleteBucketReplicationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -11033,28 +11028,28 @@ module CompleteMultipartUploadOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.e_tag
              (fun f -> Query.Pair ("ETag", (String.to_query f)));
            Util.option_map v.expiration
-             (fun f -> Query.Pair ("x-amz-expiration", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-expiration", (String.to_query f)));
            Util.option_map v.key
              (fun f -> Query.Pair ("Key", (String.to_query f)));
            Util.option_map v.bucket
@@ -11158,16 +11153,16 @@ module PutObjectTaggingRequest =
            [Util.option_map v.request_payer
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-payer", (RequestPayer.to_query f)));
+                   ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.expected_bucket_owner
              (fun f ->
                 Query.Pair
-                  ("x-amz-expected-bucket-owner", (String.to_query f)));
+                  ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Tagging", (Tagging.to_query v.tagging)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -11264,7 +11259,7 @@ module GetObjectAclOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Some
              (Query.Pair ("AccessControlList", (Grants.to_query v.grants)));
            Util.option_map v.owner
@@ -11309,7 +11304,7 @@ module GetBucketRequestPaymentRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -11450,16 +11445,16 @@ module DeleteObjectsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.bypass_governance_retention
              (fun f ->
                 Query.Pair
-                  ("x-amz-bypass-governance-retention", (Boolean.to_query f)));
+                  ("X-amz-bypass-governance-retention", (Boolean.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.m_f_a
-             (fun f -> Query.Pair ("x-amz-mfa", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-mfa", (String.to_query f)));
            Some (Query.Pair ("Delete", (Delete.to_query v.delete)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -11548,33 +11543,33 @@ module UploadPartOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.e_tag
              (fun f -> Query.Pair ("ETag", (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)))])
     let to_json v =
       `Assoc
@@ -11749,72 +11744,72 @@ module UploadPartCopyRequest =
            [Util.option_map v.expected_source_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-source-expected-bucket-owner",
+                   ("X-amz-source-expected-bucket-owner",
                      (String.to_query f)));
            Util.option_map v.expected_bucket_owner
              (fun f ->
                 Query.Pair
-                  ("x-amz-expected-bucket-owner", (String.to_query f)));
+                  ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.copy_source_s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-server-side-encryption-customer-key-MD5",
+                  ("X-amz-copy-source-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.copy_source_s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-server-side-encryption-customer-key",
+                  ("X-amz-copy-source-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.copy_source_s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-server-side-encryption-customer-algorithm",
+                  ("X-amz-copy-source-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
-           Some (Query.Pair ("uploadId", (String.to_query v.upload_id)));
-           Some (Query.Pair ("partNumber", (Integer.to_query v.part_number)));
+           Some (Query.Pair ("UploadId", (String.to_query v.upload_id)));
+           Some (Query.Pair ("PartNumber", (Integer.to_query v.part_number)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Util.option_map v.copy_source_range
              (fun f ->
-                Query.Pair ("x-amz-copy-source-range", (String.to_query f)));
+                Query.Pair ("X-amz-copy-source-range", (String.to_query f)));
            Util.option_map v.copy_source_if_unmodified_since
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-unmodified-since",
+                  ("X-amz-copy-source-if-unmodified-since",
                     (DateTime.to_query f)));
            Util.option_map v.copy_source_if_none_match
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-none-match", (String.to_query f)));
+                  ("X-amz-copy-source-if-none-match", (String.to_query f)));
            Util.option_map v.copy_source_if_modified_since
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-modified-since",
+                  ("X-amz-copy-source-if-modified-since",
                     (DateTime.to_query f)));
            Util.option_map v.copy_source_if_match
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-match", (String.to_query f)));
+                  ("X-amz-copy-source-if-match", (String.to_query f)));
            Some
              (Query.Pair
-                ("x-amz-copy-source", (String.to_query v.copy_source)));
+                ("X-amz-copy-source", (String.to_query v.copy_source)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -12004,7 +11999,7 @@ module PutObjectLockConfigurationOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)))])
+                   ("X-amz-request-charged", (RequestCharged.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -12132,12 +12127,12 @@ module PutBucketAnalyticsConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("AnalyticsConfiguration",
                   (AnalyticsConfiguration.to_query v.analytics_configuration)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -12407,134 +12402,134 @@ module CopyObjectRequest =
            [Util.option_map v.expected_source_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-source-expected-bucket-owner",
+                   ("X-amz-source-expected-bucket-owner",
                      (String.to_query f)));
            Util.option_map v.expected_bucket_owner
              (fun f ->
                 Query.Pair
-                  ("x-amz-expected-bucket-owner", (String.to_query f)));
+                  ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.object_lock_legal_hold_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-legal-hold",
+                  ("X-amz-object-lock-legal-hold",
                     (ObjectLockLegalHoldStatus.to_query f)));
            Util.option_map v.object_lock_retain_until_date
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-retain-until-date",
+                  ("X-amz-object-lock-retain-until-date",
                     (DateTime.to_query f)));
            Util.option_map v.object_lock_mode
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-mode", (ObjectLockMode.to_query f)));
+                  ("X-amz-object-lock-mode", (ObjectLockMode.to_query f)));
            Util.option_map v.tagging
-             (fun f -> Query.Pair ("x-amz-tagging", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-tagging", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.copy_source_s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-server-side-encryption-customer-key-MD5",
+                  ("X-amz-copy-source-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.copy_source_s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-server-side-encryption-customer-key",
+                  ("X-amz-copy-source-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.copy_source_s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-server-side-encryption-customer-algorithm",
+                  ("X-amz-copy-source-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_encryption_context
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-context",
+                  ("X-amz-server-side-encryption-context",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.website_redirect_location
              (fun f ->
                 Query.Pair
-                  ("x-amz-website-redirect-location", (String.to_query f)));
+                  ("X-amz-website-redirect-location", (String.to_query f)));
            Util.option_map v.storage_class
              (fun f ->
-                Query.Pair ("x-amz-storage-class", (StorageClass.to_query f)));
+                Query.Pair ("X-amz-storage-class", (StorageClass.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.tagging_directive
              (fun f ->
                 Query.Pair
-                  ("x-amz-tagging-directive", (TaggingDirective.to_query f)));
+                  ("X-amz-tagging-directive", (TaggingDirective.to_query f)));
            Util.option_map v.metadata_directive
              (fun f ->
                 Query.Pair
-                  ("x-amz-metadata-directive",
+                  ("X-amz-metadata-directive",
                     (MetadataDirective.to_query f)));
            Util.option_map v.metadata
-             (fun f -> Query.Pair ("x-amz-meta-", (Metadata.to_query f)));
+             (fun f -> Query.Pair ("X-amz-meta-", (Metadata.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Util.option_map v.grant_write_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-write-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-write-acp", (String.to_query f)));
            Util.option_map v.grant_read_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-read-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-read-acp", (String.to_query f)));
            Util.option_map v.grant_read
-             (fun f -> Query.Pair ("x-amz-grant-read", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-read", (String.to_query f)));
            Util.option_map v.grant_full_control
              (fun f ->
-                Query.Pair ("x-amz-grant-full-control", (String.to_query f)));
+                Query.Pair ("X-amz-grant-full-control", (String.to_query f)));
            Util.option_map v.expires
              (fun f -> Query.Pair ("Expires", (DateTime.to_query f)));
            Util.option_map v.copy_source_if_unmodified_since
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-unmodified-since",
+                  ("X-amz-copy-source-if-unmodified-since",
                     (DateTime.to_query f)));
            Util.option_map v.copy_source_if_none_match
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-none-match", (String.to_query f)));
+                  ("X-amz-copy-source-if-none-match", (String.to_query f)));
            Util.option_map v.copy_source_if_modified_since
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-modified-since",
+                  ("X-amz-copy-source-if-modified-since",
                     (DateTime.to_query f)));
            Util.option_map v.copy_source_if_match
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-if-match", (String.to_query f)));
+                  ("X-amz-copy-source-if-match", (String.to_query f)));
            Some
              (Query.Pair
-                ("x-amz-copy-source", (String.to_query v.copy_source)));
+                ("X-amz-copy-source", (String.to_query v.copy_source)));
            Util.option_map v.content_type
              (fun f -> Query.Pair ("Content-Type", (String.to_query f)));
            Util.option_map v.content_language
@@ -12548,7 +12543,7 @@ module CopyObjectRequest =
              (fun f -> Query.Pair ("Cache-Control", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)));
            Util.option_map v.a_c_l
-             (fun f -> Query.Pair ("x-amz-acl", (ObjectCannedACL.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-acl", (ObjectCannedACL.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -12804,7 +12799,7 @@ module DeleteBucketWebsiteRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -12854,7 +12849,7 @@ module PutBucketWebsiteRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("WebsiteConfiguration",
@@ -12910,7 +12905,7 @@ module GetBucketLifecycleRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -12950,7 +12945,7 @@ module GetBucketWebsiteRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13029,7 +13024,7 @@ module GetBucketPolicyStatusRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13069,7 +13064,7 @@ module GetBucketCorsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13141,9 +13136,9 @@ module ListBucketAnalyticsConfigurationsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.continuation_token
-             (fun f -> Query.Pair ("continuation-token", (String.to_query f)));
+             (fun f -> Query.Pair ("Continuation-token", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13198,7 +13193,7 @@ module PutBucketCorsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Some
@@ -13269,7 +13264,7 @@ module PutObjectLegalHoldOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)))])
+                   ("X-amz-request-charged", (RequestCharged.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -13305,7 +13300,7 @@ module DeletePublicAccessBlockRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13345,7 +13340,7 @@ module DeleteBucketTaggingRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13403,10 +13398,10 @@ module GetObjectTorrentRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -13454,7 +13449,7 @@ module DeleteBucketEncryptionRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13494,7 +13489,7 @@ module GetBucketLoggingRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13563,7 +13558,7 @@ module AbortMultipartUploadOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)))])
+                   ("X-amz-request-charged", (RequestCharged.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -13614,8 +13609,7 @@ module GetBucketWebsiteOutput =
         (Util.list_filter_opt
            [Some
               (Query.Pair
-                 ("RoutingRules.member",
-                   (RoutingRules.to_query v.routing_rules)));
+                 ("RoutingRules", (RoutingRules.to_query v.routing_rules)));
            Util.option_map v.error_document
              (fun f ->
                 Query.Pair ("ErrorDocument", (ErrorDocument.to_query f)));
@@ -13743,29 +13737,29 @@ module HeadObjectRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.part_number
-             (fun f -> Query.Pair ("partNumber", (Integer.to_query f)));
+             (fun f -> Query.Pair ("PartNumber", (Integer.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Util.option_map v.range
              (fun f -> Query.Pair ("Range", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
@@ -13873,9 +13867,9 @@ module ListBucketInventoryConfigurationsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.continuation_token
-             (fun f -> Query.Pair ("continuation-token", (String.to_query f)));
+             (fun f -> Query.Pair ("Continuation-token", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13916,7 +13910,7 @@ module DeleteBucketIntelligentTieringConfigurationRequest =
     let to_query v =
       Query.List
         (Util.list_filter_opt
-           [Some (Query.Pair ("id", (String.to_query v.id)));
+           [Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -13987,7 +13981,7 @@ module ListObjectsOutput =
                  Query.Pair ("EncodingType", (EncodingType.to_query f)));
            Some
              (Query.Pair
-                ("CommonPrefixes.member",
+                ("CommonPrefixes",
                   (CommonPrefixList.to_query v.common_prefixes)));
            Util.option_map v.max_keys
              (fun f -> Query.Pair ("MaxKeys", (Integer.to_query f)));
@@ -13997,9 +13991,7 @@ module ListObjectsOutput =
              (fun f -> Query.Pair ("Prefix", (String.to_query f)));
            Util.option_map v.name
              (fun f -> Query.Pair ("Name", (String.to_query f)));
-           Some
-             (Query.Pair
-                ("Contents.member", (ObjectList.to_query v.contents)));
+           Some (Query.Pair ("Contents", (ObjectList.to_query v.contents)));
            Util.option_map v.next_marker
              (fun f -> Query.Pair ("NextMarker", (String.to_query f)));
            Util.option_map v.marker
@@ -14259,63 +14251,63 @@ module HeadObjectOutput =
            [Util.option_map v.object_lock_legal_hold_status
               (fun f ->
                  Query.Pair
-                   ("x-amz-object-lock-legal-hold",
+                   ("X-amz-object-lock-legal-hold",
                      (ObjectLockLegalHoldStatus.to_query f)));
            Util.option_map v.object_lock_retain_until_date
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-retain-until-date",
+                  ("X-amz-object-lock-retain-until-date",
                     (DateTime.to_query f)));
            Util.option_map v.object_lock_mode
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-mode", (ObjectLockMode.to_query f)));
+                  ("X-amz-object-lock-mode", (ObjectLockMode.to_query f)));
            Util.option_map v.parts_count
              (fun f ->
-                Query.Pair ("x-amz-mp-parts-count", (Integer.to_query f)));
+                Query.Pair ("X-amz-mp-parts-count", (Integer.to_query f)));
            Util.option_map v.replication_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-replication-status",
+                  ("X-amz-replication-status",
                     (ReplicationStatus.to_query f)));
            Util.option_map v.request_charged
              (fun f ->
                 Query.Pair
-                  ("x-amz-request-charged", (RequestCharged.to_query f)));
+                  ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.storage_class
              (fun f ->
-                Query.Pair ("x-amz-storage-class", (StorageClass.to_query f)));
+                Query.Pair ("X-amz-storage-class", (StorageClass.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.metadata
-             (fun f -> Query.Pair ("x-amz-meta-", (Metadata.to_query f)));
+             (fun f -> Query.Pair ("X-amz-meta-", (Metadata.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.website_redirect_location
              (fun f ->
                 Query.Pair
-                  ("x-amz-website-redirect-location", (String.to_query f)));
+                  ("X-amz-website-redirect-location", (String.to_query f)));
            Util.option_map v.expires
              (fun f -> Query.Pair ("Expires", (DateTime.to_query f)));
            Util.option_map v.content_type
@@ -14330,10 +14322,10 @@ module HeadObjectOutput =
            Util.option_map v.cache_control
              (fun f -> Query.Pair ("Cache-Control", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)));
            Util.option_map v.missing_meta
              (fun f ->
-                Query.Pair ("x-amz-missing-meta", (Integer.to_query f)));
+                Query.Pair ("X-amz-missing-meta", (Integer.to_query f)));
            Util.option_map v.e_tag
              (fun f -> Query.Pair ("ETag", (String.to_query f)));
            Util.option_map v.content_length
@@ -14343,16 +14335,16 @@ module HeadObjectOutput =
            Util.option_map v.archive_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-archive-status", (ArchiveStatus.to_query f)));
+                  ("X-amz-archive-status", (ArchiveStatus.to_query f)));
            Util.option_map v.restore
-             (fun f -> Query.Pair ("x-amz-restore", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-restore", (String.to_query f)));
            Util.option_map v.expiration
-             (fun f -> Query.Pair ("x-amz-expiration", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-expiration", (String.to_query f)));
            Util.option_map v.accept_ranges
-             (fun f -> Query.Pair ("accept-ranges", (String.to_query f)));
+             (fun f -> Query.Pair ("Accept-ranges", (String.to_query f)));
            Util.option_map v.delete_marker
              (fun f ->
-                Query.Pair ("x-amz-delete-marker", (Boolean.to_query f)))])
+                Query.Pair ("X-amz-delete-marker", (Boolean.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -14546,14 +14538,14 @@ module PutObjectLegalHoldRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.legal_hold
              (fun f ->
                 Query.Pair ("LegalHold", (ObjectLockLegalHold.to_query f)));
@@ -14625,9 +14617,9 @@ module DeleteObjectTaggingRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -14673,7 +14665,7 @@ module ListBucketIntelligentTieringConfigurationsRequest =
         (Util.list_filter_opt
            [Util.option_map v.continuation_token
               (fun f ->
-                 Query.Pair ("continuation-token", (String.to_query f)));
+                 Query.Pair ("Continuation-token", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -14729,7 +14721,7 @@ module PutPublicAccessBlockRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("PublicAccessBlockConfiguration",
@@ -14794,7 +14786,7 @@ module PutBucketAccelerateConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("AccelerateConfiguration",
@@ -14840,7 +14832,7 @@ module PutObjectAclOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)))])
+                   ("X-amz-request-charged", (RequestCharged.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -14872,7 +14864,7 @@ module GetBucketIntelligentTieringConfigurationRequest =
     let to_query v =
       Query.List
         (Util.list_filter_opt
-           [Some (Query.Pair ("id", (String.to_query v.id)));
+           [Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -15017,8 +15009,8 @@ module DeleteBucketInventoryConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -15057,7 +15049,7 @@ module GetObjectTorrentOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.body
              (fun f -> Query.Pair ("Body", (Blob.to_query f)))])
     let to_json v =
@@ -15157,26 +15149,26 @@ module PutObjectAclRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Util.option_map v.grant_write_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-write-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-write-acp", (String.to_query f)));
            Util.option_map v.grant_write
-             (fun f -> Query.Pair ("x-amz-grant-write", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-write", (String.to_query f)));
            Util.option_map v.grant_read_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-read-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-read-acp", (String.to_query f)));
            Util.option_map v.grant_read
-             (fun f -> Query.Pair ("x-amz-grant-read", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-read", (String.to_query f)));
            Util.option_map v.grant_full_control
              (fun f ->
-                Query.Pair ("x-amz-grant-full-control", (String.to_query f)));
+                Query.Pair ("X-amz-grant-full-control", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)));
@@ -15185,7 +15177,7 @@ module PutObjectAclRequest =
                 Query.Pair
                   ("AccessControlPolicy", (AccessControlPolicy.to_query f)));
            Util.option_map v.a_c_l
-             (fun f -> Query.Pair ("x-amz-acl", (ObjectCannedACL.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-acl", (ObjectCannedACL.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -15312,20 +15304,20 @@ module CreateBucketRequest =
            [Util.option_map v.object_lock_enabled_for_bucket
               (fun f ->
                  Query.Pair
-                   ("x-amz-bucket-object-lock-enabled", (Boolean.to_query f)));
+                   ("X-amz-bucket-object-lock-enabled", (Boolean.to_query f)));
            Util.option_map v.grant_write_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-write-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-write-acp", (String.to_query f)));
            Util.option_map v.grant_write
-             (fun f -> Query.Pair ("x-amz-grant-write", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-write", (String.to_query f)));
            Util.option_map v.grant_read_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-read-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-read-acp", (String.to_query f)));
            Util.option_map v.grant_read
-             (fun f -> Query.Pair ("x-amz-grant-read", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-read", (String.to_query f)));
            Util.option_map v.grant_full_control
              (fun f ->
-                Query.Pair ("x-amz-grant-full-control", (String.to_query f)));
+                Query.Pair ("X-amz-grant-full-control", (String.to_query f)));
            Util.option_map v.create_bucket_configuration
              (fun f ->
                 Query.Pair
@@ -15333,7 +15325,7 @@ module CreateBucketRequest =
                     (CreateBucketConfiguration.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)));
            Util.option_map v.a_c_l
-             (fun f -> Query.Pair ("x-amz-acl", (BucketCannedACL.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-acl", (BucketCannedACL.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -15433,8 +15425,8 @@ module GetBucketMetricsConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -15486,7 +15478,7 @@ module PutBucketLoggingRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Some
@@ -15643,27 +15635,27 @@ module UploadPartRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
-           Some (Query.Pair ("uploadId", (String.to_query v.upload_id)));
-           Some (Query.Pair ("partNumber", (Integer.to_query v.part_number)));
+           Some (Query.Pair ("UploadId", (String.to_query v.upload_id)));
+           Some (Query.Pair ("PartNumber", (Integer.to_query v.part_number)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
@@ -15753,8 +15745,8 @@ module DeleteBucketAnalyticsConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -15821,11 +15813,11 @@ module CompleteMultipartUploadRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
-           Some (Query.Pair ("uploadId", (String.to_query v.upload_id)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
+           Some (Query.Pair ("UploadId", (String.to_query v.upload_id)));
            Util.option_map v.multipart_upload
              (fun f ->
                 Query.Pair
@@ -15887,7 +15879,7 @@ module DeleteBucketPolicyRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -15927,7 +15919,7 @@ module GetPublicAccessBlockRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -15967,7 +15959,7 @@ module GetBucketReplicationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -16007,7 +15999,7 @@ module GetBucketOwnershipControlsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -16047,7 +16039,7 @@ module DeleteBucketRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -16092,9 +16084,9 @@ module ListBucketMetricsConfigurationsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.continuation_token
-             (fun f -> Query.Pair ("continuation-token", (String.to_query f)));
+             (fun f -> Query.Pair ("Continuation-token", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -16139,7 +16131,7 @@ module GetBucketLifecycleConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -16175,7 +16167,7 @@ module ListBucketsOutput =
         (Util.list_filter_opt
            [Util.option_map v.owner
               (fun f -> Query.Pair ("Owner", (Owner.to_query f)));
-           Some (Query.Pair ("Buckets.member", (Buckets.to_query v.buckets)))])
+           Some (Query.Pair ("Buckets", (Buckets.to_query v.buckets)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -16370,82 +16362,82 @@ module CreateMultipartUploadRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.object_lock_legal_hold_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-legal-hold",
+                  ("X-amz-object-lock-legal-hold",
                     (ObjectLockLegalHoldStatus.to_query f)));
            Util.option_map v.object_lock_retain_until_date
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-retain-until-date",
+                  ("X-amz-object-lock-retain-until-date",
                     (DateTime.to_query f)));
            Util.option_map v.object_lock_mode
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-mode", (ObjectLockMode.to_query f)));
+                  ("X-amz-object-lock-mode", (ObjectLockMode.to_query f)));
            Util.option_map v.tagging
-             (fun f -> Query.Pair ("x-amz-tagging", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-tagging", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_encryption_context
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-context",
+                  ("X-amz-server-side-encryption-context",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.website_redirect_location
              (fun f ->
                 Query.Pair
-                  ("x-amz-website-redirect-location", (String.to_query f)));
+                  ("X-amz-website-redirect-location", (String.to_query f)));
            Util.option_map v.storage_class
              (fun f ->
-                Query.Pair ("x-amz-storage-class", (StorageClass.to_query f)));
+                Query.Pair ("X-amz-storage-class", (StorageClass.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.metadata
-             (fun f -> Query.Pair ("x-amz-meta-", (Metadata.to_query f)));
+             (fun f -> Query.Pair ("X-amz-meta-", (Metadata.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Util.option_map v.grant_write_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-write-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-write-acp", (String.to_query f)));
            Util.option_map v.grant_read_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-read-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-read-acp", (String.to_query f)));
            Util.option_map v.grant_read
-             (fun f -> Query.Pair ("x-amz-grant-read", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-read", (String.to_query f)));
            Util.option_map v.grant_full_control
              (fun f ->
-                Query.Pair ("x-amz-grant-full-control", (String.to_query f)));
+                Query.Pair ("X-amz-grant-full-control", (String.to_query f)));
            Util.option_map v.expires
              (fun f -> Query.Pair ("Expires", (DateTime.to_query f)));
            Util.option_map v.content_type
@@ -16461,7 +16453,7 @@ module CreateMultipartUploadRequest =
              (fun f -> Query.Pair ("Cache-Control", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)));
            Util.option_map v.a_c_l
-             (fun f -> Query.Pair ("x-amz-acl", (ObjectCannedACL.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-acl", (ObjectCannedACL.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -16644,12 +16636,12 @@ module PutBucketPolicyRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Policy", (String.to_query v.policy)));
            Util.option_map v.confirm_remove_self_bucket_access
              (fun f ->
                 Query.Pair
-                  ("x-amz-confirm-remove-self-bucket-access",
+                  ("X-amz-confirm-remove-self-bucket-access",
                     (Boolean.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
@@ -16736,7 +16728,7 @@ module GetBucketAccelerateConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -16791,7 +16783,7 @@ module PutBucketNotificationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("NotificationConfiguration",
@@ -16899,43 +16891,43 @@ module PutObjectOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_encryption_context
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-context",
+                  ("X-amz-server-side-encryption-context",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.e_tag
              (fun f -> Query.Pair ("ETag", (String.to_query f)));
            Util.option_map v.expiration
-             (fun f -> Query.Pair ("x-amz-expiration", (String.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-expiration", (String.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -17004,7 +16996,7 @@ module GetBucketTaggingOutput =
     let to_query v =
       Query.List
         (Util.list_filter_opt
-           [Some (Query.Pair ("TagSet.member", (TagSet.to_query v.tag_set)))])
+           [Some (Query.Pair ("TagSet", (TagSet.to_query v.tag_set)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt [Some ("tag_set", (TagSet.to_json v.tag_set))])
@@ -17112,12 +17104,12 @@ module GetObjectRetentionRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -17231,7 +17223,7 @@ module SelectObjectContentRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.scan_range
              (fun f -> Query.Pair ("ScanRange", (ScanRange.to_query f)));
            Some
@@ -17253,17 +17245,17 @@ module SelectObjectContentRequest =
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
@@ -17430,25 +17422,25 @@ module ListObjectsV2Request =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.start_after
-             (fun f -> Query.Pair ("start-after", (String.to_query f)));
+             (fun f -> Query.Pair ("Start-after", (String.to_query f)));
            Util.option_map v.fetch_owner
-             (fun f -> Query.Pair ("fetch-owner", (Boolean.to_query f)));
+             (fun f -> Query.Pair ("Fetch-owner", (Boolean.to_query f)));
            Util.option_map v.continuation_token
-             (fun f -> Query.Pair ("continuation-token", (String.to_query f)));
+             (fun f -> Query.Pair ("Continuation-token", (String.to_query f)));
            Util.option_map v.prefix
-             (fun f -> Query.Pair ("prefix", (String.to_query f)));
+             (fun f -> Query.Pair ("Prefix", (String.to_query f)));
            Util.option_map v.max_keys
-             (fun f -> Query.Pair ("max-keys", (Integer.to_query f)));
+             (fun f -> Query.Pair ("Max-keys", (Integer.to_query f)));
            Util.option_map v.encoding_type
              (fun f ->
-                Query.Pair ("encoding-type", (EncodingType.to_query f)));
+                Query.Pair ("Encoding-type", (EncodingType.to_query f)));
            Util.option_map v.delimiter
-             (fun f -> Query.Pair ("delimiter", (String.to_query f)));
+             (fun f -> Query.Pair ("Delimiter", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -17530,7 +17522,7 @@ module PutBucketIntelligentTieringConfigurationRequest =
                  ("IntelligentTieringConfiguration",
                    (IntelligentTieringConfiguration.to_query
                       v.intelligent_tiering_configuration)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -17577,10 +17569,8 @@ module DeleteObjectsOutput =
            Util.option_map v.request_charged
              (fun f ->
                 Query.Pair
-                  ("x-amz-request-charged", (RequestCharged.to_query f)));
-           Some
-             (Query.Pair
-                ("Deleted.member", (DeletedObjects.to_query v.deleted)))])
+                  ("X-amz-request-charged", (RequestCharged.to_query f)));
+           Some (Query.Pair ("Deleted", (DeletedObjects.to_query v.deleted)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -17633,12 +17623,12 @@ module PutBucketInventoryConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("InventoryConfiguration",
                   (InventoryConfiguration.to_query v.inventory_configuration)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -17727,31 +17717,31 @@ module UploadPartCopyOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.copy_part_result
              (fun f ->
@@ -17759,7 +17749,7 @@ module UploadPartCopyOutput =
            Util.option_map v.copy_source_version_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-version-id", (String.to_query f)))])
+                  ("X-amz-copy-source-version-id", (String.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -17836,8 +17826,8 @@ module GetBucketAnalyticsConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
-           Some (Query.Pair ("id", (String.to_query v.id)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
+           Some (Query.Pair ("Id", (String.to_query v.id)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -17908,21 +17898,21 @@ module ListObjectsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.prefix
-             (fun f -> Query.Pair ("prefix", (String.to_query f)));
+             (fun f -> Query.Pair ("Prefix", (String.to_query f)));
            Util.option_map v.max_keys
-             (fun f -> Query.Pair ("max-keys", (Integer.to_query f)));
+             (fun f -> Query.Pair ("Max-keys", (Integer.to_query f)));
            Util.option_map v.marker
-             (fun f -> Query.Pair ("marker", (String.to_query f)));
+             (fun f -> Query.Pair ("Marker", (String.to_query f)));
            Util.option_map v.encoding_type
              (fun f ->
-                Query.Pair ("encoding-type", (EncodingType.to_query f)));
+                Query.Pair ("Encoding-type", (EncodingType.to_query f)));
            Util.option_map v.delimiter
-             (fun f -> Query.Pair ("delimiter", (String.to_query f)));
+             (fun f -> Query.Pair ("Delimiter", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -18146,82 +18136,82 @@ module PutObjectRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.object_lock_legal_hold_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-legal-hold",
+                  ("X-amz-object-lock-legal-hold",
                     (ObjectLockLegalHoldStatus.to_query f)));
            Util.option_map v.object_lock_retain_until_date
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-retain-until-date",
+                  ("X-amz-object-lock-retain-until-date",
                     (DateTime.to_query f)));
            Util.option_map v.object_lock_mode
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-mode", (ObjectLockMode.to_query f)));
+                  ("X-amz-object-lock-mode", (ObjectLockMode.to_query f)));
            Util.option_map v.tagging
-             (fun f -> Query.Pair ("x-amz-tagging", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-tagging", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_encryption_context
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-context",
+                  ("X-amz-server-side-encryption-context",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key",
+                  ("X-amz-server-side-encryption-customer-key",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.website_redirect_location
              (fun f ->
                 Query.Pair
-                  ("x-amz-website-redirect-location", (String.to_query f)));
+                  ("X-amz-website-redirect-location", (String.to_query f)));
            Util.option_map v.storage_class
              (fun f ->
-                Query.Pair ("x-amz-storage-class", (StorageClass.to_query f)));
+                Query.Pair ("X-amz-storage-class", (StorageClass.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.metadata
-             (fun f -> Query.Pair ("x-amz-meta-", (Metadata.to_query f)));
+             (fun f -> Query.Pair ("X-amz-meta-", (Metadata.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Util.option_map v.grant_write_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-write-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-write-acp", (String.to_query f)));
            Util.option_map v.grant_read_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-read-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-read-acp", (String.to_query f)));
            Util.option_map v.grant_read
-             (fun f -> Query.Pair ("x-amz-grant-read", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-read", (String.to_query f)));
            Util.option_map v.grant_full_control
              (fun f ->
-                Query.Pair ("x-amz-grant-full-control", (String.to_query f)));
+                Query.Pair ("X-amz-grant-full-control", (String.to_query f)));
            Util.option_map v.expires
              (fun f -> Query.Pair ("Expires", (DateTime.to_query f)));
            Util.option_map v.content_type
@@ -18243,7 +18233,7 @@ module PutObjectRequest =
            Util.option_map v.body
              (fun f -> Query.Pair ("Body", (Blob.to_query f)));
            Util.option_map v.a_c_l
-             (fun f -> Query.Pair ("x-amz-acl", (ObjectCannedACL.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-acl", (ObjectCannedACL.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -18461,20 +18451,20 @@ module PutBucketAclRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.grant_write_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-write-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-write-acp", (String.to_query f)));
            Util.option_map v.grant_write
-             (fun f -> Query.Pair ("x-amz-grant-write", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-write", (String.to_query f)));
            Util.option_map v.grant_read_a_c_p
              (fun f ->
-                Query.Pair ("x-amz-grant-read-acp", (String.to_query f)));
+                Query.Pair ("X-amz-grant-read-acp", (String.to_query f)));
            Util.option_map v.grant_read
-             (fun f -> Query.Pair ("x-amz-grant-read", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-grant-read", (String.to_query f)));
            Util.option_map v.grant_full_control
              (fun f ->
-                Query.Pair ("x-amz-grant-full-control", (String.to_query f)));
+                Query.Pair ("X-amz-grant-full-control", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)));
@@ -18483,7 +18473,7 @@ module PutBucketAclRequest =
                 Query.Pair
                   ("AccessControlPolicy", (AccessControlPolicy.to_query f)));
            Util.option_map v.a_c_l
-             (fun f -> Query.Pair ("x-amz-acl", (BucketCannedACL.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-acl", (BucketCannedACL.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -18570,12 +18560,12 @@ module GetObjectAclRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Some (Query.Pair ("Key", (String.to_query v.key)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
@@ -18632,7 +18622,7 @@ module PutBucketLifecycleConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.lifecycle_configuration
              (fun f ->
                 Query.Pair
@@ -18772,7 +18762,7 @@ module ListPartsOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.storage_class
              (fun f -> Query.Pair ("StorageClass", (StorageClass.to_query f)));
            Util.option_map v.owner
@@ -18797,9 +18787,9 @@ module ListPartsOutput =
              (fun f -> Query.Pair ("Bucket", (String.to_query f)));
            Util.option_map v.abort_rule_id
              (fun f ->
-                Query.Pair ("x-amz-abort-rule-id", (String.to_query f)));
+                Query.Pair ("X-amz-abort-rule-id", (String.to_query f)));
            Util.option_map v.abort_date
-             (fun f -> Query.Pair ("x-amz-abort-date", (DateTime.to_query f)))])
+             (fun f -> Query.Pair ("X-amz-abort-date", (DateTime.to_query f)))])
     let to_json v =
       `Assoc
         (Util.list_filter_opt
@@ -18927,7 +18917,7 @@ module ListMultipartUploadsOutput =
                  Query.Pair ("EncodingType", (EncodingType.to_query f)));
            Some
              (Query.Pair
-                ("CommonPrefixes.member",
+                ("CommonPrefixes",
                   (CommonPrefixList.to_query v.common_prefixes)));
            Some
              (Query.Pair ("Upload", (MultipartUploadList.to_query v.uploads)));
@@ -19057,20 +19047,20 @@ module ListObjectVersionsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.version_id_marker
-             (fun f -> Query.Pair ("version-id-marker", (String.to_query f)));
+             (fun f -> Query.Pair ("Version-id-marker", (String.to_query f)));
            Util.option_map v.prefix
-             (fun f -> Query.Pair ("prefix", (String.to_query f)));
+             (fun f -> Query.Pair ("Prefix", (String.to_query f)));
            Util.option_map v.max_keys
-             (fun f -> Query.Pair ("max-keys", (Integer.to_query f)));
+             (fun f -> Query.Pair ("Max-keys", (Integer.to_query f)));
            Util.option_map v.key_marker
-             (fun f -> Query.Pair ("key-marker", (String.to_query f)));
+             (fun f -> Query.Pair ("Key-marker", (String.to_query f)));
            Util.option_map v.encoding_type
              (fun f ->
-                Query.Pair ("encoding-type", (EncodingType.to_query f)));
+                Query.Pair ("Encoding-type", (EncodingType.to_query f)));
            Util.option_map v.delimiter
-             (fun f -> Query.Pair ("delimiter", (String.to_query f)));
+             (fun f -> Query.Pair ("Delimiter", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -19133,7 +19123,7 @@ module GetBucketEncryptionRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -19173,7 +19163,7 @@ module DeleteBucketCorsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -19271,45 +19261,45 @@ module CopyObjectOutput =
            [Util.option_map v.request_charged
               (fun f ->
                  Query.Pair
-                   ("x-amz-request-charged", (RequestCharged.to_query f)));
+                   ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_encryption_context
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-context",
+                  ("X-amz-server-side-encryption-context",
                     (String.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)));
            Util.option_map v.copy_source_version_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-copy-source-version-id", (String.to_query f)));
+                  ("X-amz-copy-source-version-id", (String.to_query f)));
            Util.option_map v.expiration
-             (fun f -> Query.Pair ("x-amz-expiration", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-expiration", (String.to_query f)));
            Util.option_map v.copy_object_result
              (fun f ->
                 Query.Pair
@@ -19440,7 +19430,7 @@ module PutBucketTaggingRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Tagging", (Tagging.to_query v.tagging)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
@@ -19525,18 +19515,18 @@ module PutObjectRetentionRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.content_m_d5
              (fun f -> Query.Pair ("Content-MD5", (String.to_query f)));
            Util.option_map v.bypass_governance_retention
              (fun f ->
                 Query.Pair
-                  ("x-amz-bypass-governance-retention", (Boolean.to_query f)));
+                  ("X-amz-bypass-governance-retention", (Boolean.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("versionId", (String.to_query f)));
+             (fun f -> Query.Pair ("VersionId", (String.to_query f)));
            Util.option_map v.request_payer
              (fun f ->
-                Query.Pair ("x-amz-request-payer", (RequestPayer.to_query f)));
+                Query.Pair ("X-amz-request-payer", (RequestPayer.to_query f)));
            Util.option_map v.retention
              (fun f ->
                 Query.Pair ("Retention", (ObjectLockRetention.to_query f)));
@@ -19605,7 +19595,7 @@ module DeleteBucketOwnershipControlsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -19675,20 +19665,20 @@ module ListMultipartUploadsRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Util.option_map v.upload_id_marker
-             (fun f -> Query.Pair ("upload-id-marker", (String.to_query f)));
+             (fun f -> Query.Pair ("Upload-id-marker", (String.to_query f)));
            Util.option_map v.prefix
-             (fun f -> Query.Pair ("prefix", (String.to_query f)));
+             (fun f -> Query.Pair ("Prefix", (String.to_query f)));
            Util.option_map v.max_uploads
-             (fun f -> Query.Pair ("max-uploads", (Integer.to_query f)));
+             (fun f -> Query.Pair ("Max-uploads", (Integer.to_query f)));
            Util.option_map v.key_marker
-             (fun f -> Query.Pair ("key-marker", (String.to_query f)));
+             (fun f -> Query.Pair ("Key-marker", (String.to_query f)));
            Util.option_map v.encoding_type
              (fun f ->
-                Query.Pair ("encoding-type", (EncodingType.to_query f)));
+                Query.Pair ("Encoding-type", (EncodingType.to_query f)));
            Util.option_map v.delimiter
-             (fun f -> Query.Pair ("delimiter", (String.to_query f)));
+             (fun f -> Query.Pair ("Delimiter", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -19751,7 +19741,7 @@ module GetBucketNotificationConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -19947,66 +19937,66 @@ module GetObjectOutput =
            [Util.option_map v.object_lock_legal_hold_status
               (fun f ->
                  Query.Pair
-                   ("x-amz-object-lock-legal-hold",
+                   ("X-amz-object-lock-legal-hold",
                      (ObjectLockLegalHoldStatus.to_query f)));
            Util.option_map v.object_lock_retain_until_date
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-retain-until-date",
+                  ("X-amz-object-lock-retain-until-date",
                     (DateTime.to_query f)));
            Util.option_map v.object_lock_mode
              (fun f ->
                 Query.Pair
-                  ("x-amz-object-lock-mode", (ObjectLockMode.to_query f)));
+                  ("X-amz-object-lock-mode", (ObjectLockMode.to_query f)));
            Util.option_map v.tag_count
              (fun f ->
-                Query.Pair ("x-amz-tagging-count", (Integer.to_query f)));
+                Query.Pair ("X-amz-tagging-count", (Integer.to_query f)));
            Util.option_map v.parts_count
              (fun f ->
-                Query.Pair ("x-amz-mp-parts-count", (Integer.to_query f)));
+                Query.Pair ("X-amz-mp-parts-count", (Integer.to_query f)));
            Util.option_map v.replication_status
              (fun f ->
                 Query.Pair
-                  ("x-amz-replication-status",
+                  ("X-amz-replication-status",
                     (ReplicationStatus.to_query f)));
            Util.option_map v.request_charged
              (fun f ->
                 Query.Pair
-                  ("x-amz-request-charged", (RequestCharged.to_query f)));
+                  ("X-amz-request-charged", (RequestCharged.to_query f)));
            Util.option_map v.storage_class
              (fun f ->
-                Query.Pair ("x-amz-storage-class", (StorageClass.to_query f)));
+                Query.Pair ("X-amz-storage-class", (StorageClass.to_query f)));
            Util.option_map v.bucket_key_enabled
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-bucket-key-enabled",
+                  ("X-amz-server-side-encryption-bucket-key-enabled",
                     (Boolean.to_query f)));
            Util.option_map v.s_s_e_k_m_s_key_id
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-aws-kms-key-id",
+                  ("X-amz-server-side-encryption-aws-kms-key-id",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_key_m_d5
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-key-MD5",
+                  ("X-amz-server-side-encryption-customer-key-MD5",
                     (String.to_query f)));
            Util.option_map v.s_s_e_customer_algorithm
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption-customer-algorithm",
+                  ("X-amz-server-side-encryption-customer-algorithm",
                     (String.to_query f)));
            Util.option_map v.metadata
-             (fun f -> Query.Pair ("x-amz-meta-", (Metadata.to_query f)));
+             (fun f -> Query.Pair ("X-amz-meta-", (Metadata.to_query f)));
            Util.option_map v.server_side_encryption
              (fun f ->
                 Query.Pair
-                  ("x-amz-server-side-encryption",
+                  ("X-amz-server-side-encryption",
                     (ServerSideEncryption.to_query f)));
            Util.option_map v.website_redirect_location
              (fun f ->
                 Query.Pair
-                  ("x-amz-website-redirect-location", (String.to_query f)));
+                  ("X-amz-website-redirect-location", (String.to_query f)));
            Util.option_map v.expires
              (fun f -> Query.Pair ("Expires", (DateTime.to_query f)));
            Util.option_map v.content_type
@@ -20023,10 +20013,10 @@ module GetObjectOutput =
            Util.option_map v.cache_control
              (fun f -> Query.Pair ("Cache-Control", (String.to_query f)));
            Util.option_map v.version_id
-             (fun f -> Query.Pair ("x-amz-version-id", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-version-id", (String.to_query f)));
            Util.option_map v.missing_meta
              (fun f ->
-                Query.Pair ("x-amz-missing-meta", (Integer.to_query f)));
+                Query.Pair ("X-amz-missing-meta", (Integer.to_query f)));
            Util.option_map v.e_tag
              (fun f -> Query.Pair ("ETag", (String.to_query f)));
            Util.option_map v.content_length
@@ -20034,14 +20024,14 @@ module GetObjectOutput =
            Util.option_map v.last_modified
              (fun f -> Query.Pair ("Last-Modified", (DateTime.to_query f)));
            Util.option_map v.restore
-             (fun f -> Query.Pair ("x-amz-restore", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-restore", (String.to_query f)));
            Util.option_map v.expiration
-             (fun f -> Query.Pair ("x-amz-expiration", (String.to_query f)));
+             (fun f -> Query.Pair ("X-amz-expiration", (String.to_query f)));
            Util.option_map v.accept_ranges
-             (fun f -> Query.Pair ("accept-ranges", (String.to_query f)));
+             (fun f -> Query.Pair ("Accept-ranges", (String.to_query f)));
            Util.option_map v.delete_marker
              (fun f ->
-                Query.Pair ("x-amz-delete-marker", (Boolean.to_query f)));
+                Query.Pair ("X-amz-delete-marker", (Boolean.to_query f)));
            Util.option_map v.body
              (fun f -> Query.Pair ("Body", (Blob.to_query f)))])
     let to_json v =
@@ -20220,7 +20210,7 @@ module PutBucketNotificationConfigurationRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some
              (Query.Pair
                 ("NotificationConfiguration",
@@ -20272,7 +20262,7 @@ module DeleteBucketLifecycleRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
@@ -20312,7 +20302,7 @@ module GetBucketAclRequest =
            [Util.option_map v.expected_bucket_owner
               (fun f ->
                  Query.Pair
-                   ("x-amz-expected-bucket-owner", (String.to_query f)));
+                   ("X-amz-expected-bucket-owner", (String.to_query f)));
            Some (Query.Pair ("Bucket", (String.to_query v.bucket)))])
     let to_json v =
       `Assoc
