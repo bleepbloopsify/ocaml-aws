@@ -428,7 +428,7 @@ let types is_ec2 shapes =
   in
   imports @ modules
 
-let op service version _shapes op signature_version =
+let op is_s3 service version _shapes op signature_version =
   let open Syntax in
   let mkty = function
     | None -> ty0 "unit"
@@ -476,6 +476,8 @@ let op service version _shapes op signature_version =
              (letin
                 "resp"
                 (let r =
+                  if is_s3 then
+                  (app1 "Some" (app1 "Ezxmlm.tl" (app1 "snd" (ident "xml")))) else
                    app2
                      "Xml.member"
                      (str (op.Operation.name ^ "Response"))

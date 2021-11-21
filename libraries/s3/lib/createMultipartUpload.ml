@@ -19,7 +19,7 @@ let to_http service region req =
 let of_http body =
   try
     let xml = Ezxmlm.from_string body in
-    let resp = Xml.member "CreateMultipartUploadResponse" (snd xml) in
+    let resp = Some (Ezxmlm.tl (snd xml)) in
     try
       Util.or_error (Util.option_bind resp CreateMultipartUploadOutput.parse)
         (let open Error in

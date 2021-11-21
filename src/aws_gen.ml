@@ -127,7 +127,7 @@ let rec mkdir_p ?(root = "") dirs =
       (try Unix.mkdir dir 0o777 with Unix.Unix_error (Unix.EEXIST, _, _) -> ());
       mkdir_p ~root:dir ds
 
-let main input override errors_path outdir is_ec2 =
+let main input override errors_path outdir is_ec2 is_s3 =
   log "## Generating...";
   let overrides =
     match override with
@@ -218,7 +218,7 @@ let main input override errors_path outdir is_ec2 =
   log "## Wrote %d error variants..." (List.length errors);
   List.iter
     (fun op ->
-      let mli, ml = Generate.op lib_name api_version shapes op signature_version in
+      let mli, ml = Generate.op is_s3 lib_name api_version shapes op signature_version in
       let modname = uncapitalize op.Operation.name in
       Printing.write_signature (lib_dir </> modname ^ ".mli") mli;
       Printing.write_structure (lib_dir </> modname ^ ".ml") ml)
@@ -280,8 +280,12 @@ module CommandLine = struct
   let is_ec2 =
     let doc = "This enables EC2-specific special casing in parts of code generation." in
     Arg.(value & flag & info [ "is-ec2" ] ~docv:"Filename" ~doc)
+  
+  let is_s3 =
+    let doc = "This enables S3-specific deserialization in parts of code generation." in
+    Arg.(value & flag & info [ "is-s3" ] ~docv:"Filename" ~doc)
 
-  let gen_t = Term.(pure main $ input $ override $ errors $ outdir $ is_ec2)
+  let gen_t = Term.(pure main $ input $ override $ errors $ outdir $ is_ec2 $ is_s3)
 
   let info =
     let doc = "Generate a library for an AWS schema." in

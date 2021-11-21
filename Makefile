@@ -27,7 +27,7 @@ aws-ec2:
 	dune exec aws-gen -- --is-ec2 -i input/ec2/latest/service-2.json -r input/ec2/overrides.json -e input/errors.json -o libraries
 
 aws-s3:
-	dune exec aws-gen -- --is-ec2 -i input/s3/latest/service-2.json -r input/s3/overrides.json -e input/errors.json -o libraries
+	dune exec aws-gen -- --is-s3 -i input/s3/latest/service-2.json -r input/s3/overrides.json -e input/errors.json -o libraries
 
 # NOTE: This does not include aws-ec2, which is special-cased.
 LIBRARIES := \
