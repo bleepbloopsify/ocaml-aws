@@ -32,9 +32,11 @@ LIBRARIES := \
 	aws-cloudformation \
 	aws-cloudtrail \
 	aws-cloudwatch \
+	aws-cloudfront \
 	aws-elasticache \
 	aws-elasticloadbalancing \
 	aws-rds \
+	aws-s3 \
 	aws-sdb \
 	aws-ssm \
 	aws-sts \

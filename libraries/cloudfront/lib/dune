@@ -1,0 +1,7 @@
+(library
+ (name aws_cloudfront)
+ (public_name aws-cloudfront)
+ (synopsis "aws-Amazon CloudFront")
+ (flags
+  (:standard -w -27))
+ (libraries aws))
